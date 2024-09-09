@@ -1,27 +1,39 @@
+from tkinter import *
 import tkinter as tk
-from gui.clientes import abrir_clientes
 from database.init_db import createDB
-# from peliculas import abrir_peliculas
-# from copias import abrir_copias
+from gui.clientes import client
+from gui.peliculas import pelicula
+from gui.copias import copia
 
-def main_menu():
-    createDB()
-    root = tk.Tk()
-    root.title("Sistema de Gestión de Películas")
+class main_menu:
 
-    # Botón para abrir interfaz de clientes
-    btn_clientes = tk.Button(root, text="Gestionar Clientes", command=abrir_clientes)
-    btn_clientes.pack(pady=10)
+    def __init__(self, window_menu):
 
-    # Botón para abrir interfaz de películas
-    btn_peliculas = tk.Button(root, text="Gestionar Películas")
-    btn_peliculas.pack(pady=10)
+        self.wmenu = window_menu;
+        self.wmenu.title("Menu principal")
 
-    # Botón para abrir interfaz de cintas
-    btn_cintas = tk.Button(root, text="Gestionar Cintas")
-    btn_cintas.pack(pady=10)
+        # Creacion del frame principal
+        frame = LabelFrame(self.wmenu, text= "Base de datos")
+        frame.grid(row = 0, column=0, columnspan= 3, pady= 20)
 
-    root.mainloop()
+        # Creacion de botones
+        self.bclient =  tk.Button(frame, text= "Clientes").grid(row=1, column=0)
+        self.bcopias =  tk.Button(frame, text= "Copias").grid(row=1, column=1)
+        self.bpeliculas =  tk.Button(frame, text= "Peliculas").grid(row=1, column=2)
+
+        pass
+    
 
 if __name__ == "__main__":
-    main_menu()
+    createDB()
+    root = tk.Tk() # Ventana principal
+    # Ventaas para administrar la db
+    vclientes = tk.Toplevel(root)
+    vcopias = tk.Toplevel(root)
+    vpeliculas = tk.Toplevel(root)
+    # Proyeccion en su objeto
+    menu = main_menu(root)
+    clients = client(vclientes)
+    copias = copia(vcopias)
+    peliculas = pelicula(vpeliculas)
+    root.mainloop()
